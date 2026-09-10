@@ -1,8 +1,8 @@
 ## ==========================================================================
 ## .NET / Backend (SabemiWebhooks.Api)
 ## ==========================================================================
-[Bb]in/
-[Oo]bj/
+backend/SabemiWebhooks.Api/bin/
+backend/SabemiWebhooks.Api/obj/
 out/
 *.user
 *.suo
@@ -10,8 +10,8 @@ out/
 *.sln.docstates
 
 # Resultados de build/publish
-[Dd]ebug/
-[Rr]elease/
+debug/
+release/
 publish/
 
 # Arquivos de configuração local que não devem ir pro repositório
@@ -36,8 +36,8 @@ coverage*.info
 ## ==========================================================================
 ## Node / Next.js (frontend)
 ## ==========================================================================
-node_modules/
-.next/
+frontend/node_modules/
+frontend/.next/
 out/
 build/
 dist/
@@ -49,9 +49,9 @@ yarn-error.log*
 pnpm-debug.log*
 
 # Variáveis de ambiente locais (nunca commitar chaves/URLs de ambiente real)
-.env
-.env.local
-.env.*.local
+frontend/.env
+frontend/.env.local
+frontend/.env.*.local
 
 # Cache do Next.js / Vercel
 .vercel
