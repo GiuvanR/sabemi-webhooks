@@ -6,20 +6,20 @@ administrativo.
 
 ## Arquitetura
 
-```
-banco parceiro
-      │  POST /webhooks/pagamento  (header X-Api-Key)
-      ▼
-┌─────────────────────────────┐
-│  WebhookController           │  1. valida ApiKey (middleware)
+```  
+          banco parceiro
+               │  POST /webhooks/pagamento  (header X-Api-Key)
+               ▼
+┌───────────────────────────────┐
+│  WebhookController            │  1. valida ApiKey (middleware)
 │                               │  2. checa idempotência (id_transacao)
 │                               │  3. grava "eventos_log_bruto" (status=Recebido)
 │                               │  4. enfileira job                → 202 Accepted (rápido)
 └──────────────┬────────────────┘
                │ Channel<PagamentoJob> (fila em memória)
                ▼
-┌─────────────────────────────┐
-│  PagamentoBackgroundService  │  BackgroundService que roda a vida toda
+┌───────────────────────────────┐
+│  PagamentoBackgroundService   │  BackgroundService que roda a vida toda
 │                               │  - Task.Delay(2s) simulando regra pesada
 │                               │  - valida regra de negócio
 │                               │  - atualiza "eventos_log_bruto" (Sucesso/Erro)
