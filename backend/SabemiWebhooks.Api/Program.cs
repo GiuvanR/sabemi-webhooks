@@ -1,4 +1,7 @@
 using Microsoft.EntityFrameworkCore;
+
+using Microsoft.OpenApi.Models;
+
 using SabemiWebhooks.Api.Data;
 using SabemiWebhooks.Api.Middleware;
 using SabemiWebhooks.Api.Models;
@@ -9,7 +12,30 @@ var builder = WebApplication.CreateBuilder(args);
 // --- Serviços ---
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen();
+
+builder.Services.AddSwaggerGen(options =>
+{
+    // Faz o Swagger mostrar o botão "Authorize" e enviar o header X-Api-Key
+    // em toda requisição feita pela UI (necessário para testar /webhooks/*).
+    options.AddSecurityDefinition("ApiKey", new OpenApiSecurityScheme
+    {
+        Name = "X-Api-Key",
+        Type = SecuritySchemeType.ApiKey,
+        In = ParameterLocation.Header,
+        Description = "Chave exigida nas rotas /webhooks/*. Valor configurado em appsettings.json (Webhook:ApiKey)."
+    });
+
+    options.AddSecurityRequirement(new OpenApiSecurityRequirement
+    {
+        {
+            new OpenApiSecurityScheme
+            {
+                Reference = new OpenApiReference { Type = ReferenceType.SecurityScheme, Id = "ApiKey" }
+            },
+            Array.Empty<string>()
+        }
+    });
+});
 
 builder.Services.AddDbContext<AppDbContext>(options =>
     options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection")));

@@ -37,7 +37,7 @@ export default function Filtros({
         <input
           id="filtro-contrato"
           type="text"
-          placeholder="ex: CT-1029"
+          placeholder="ex: CT-0000"
           value={idContrato}
           onChange={(e) => onIdContratoChange(e.target.value)}
         />
